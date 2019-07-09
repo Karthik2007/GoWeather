@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
  *
  * created by Karthik A on 2019-05-29
  */
-open class CoroutineDispachterProvider {
+open class CoroutineDispatcherProvider {
 
     open val Main: CoroutineDispatcher by lazy { Dispatchers.Main }
     open val IO: CoroutineDispatcher by lazy { Dispatchers.IO }

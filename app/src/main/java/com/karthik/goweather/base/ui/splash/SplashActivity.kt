@@ -7,7 +7,7 @@ import android.os.Handler
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.karthik.goweather.R
-//import com.karthik.goweather.weather.ui.view.WeatherActivity
+import com.karthik.goweather.weather.ui.view.WeatherActivity
 import kotlinx.android.synthetic.main.activity_splash.*
 
 class SplashActivity : AppCompatActivity() {
@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
         //splash animation handler
         splashHandler.postDelayed({
-            //startActivity(Intent(applicationContext, WeatherActivity::class.java))
+            startActivity(Intent(applicationContext, WeatherActivity::class.java))
             finish()
         }, 3000)
 

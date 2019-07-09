@@ -3,7 +3,7 @@ package com.karthik.goweather.base.di
 import android.app.Application
 import android.content.Context
 import com.karthik.goweather.base.navigation.AppNavigator
-import com.karthik.goweather.base.util.CoroutineDispachterProvider
+import com.karthik.goweather.base.util.CoroutineDispatcherProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -26,7 +26,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesDispatcherProvider() = CoroutineDispachterProvider()
+    fun providesDispatcherProvider() = CoroutineDispatcherProvider()
 
     @Singleton
     @Provides

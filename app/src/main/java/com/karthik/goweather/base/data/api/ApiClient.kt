@@ -63,5 +63,5 @@ class ApiClient(var context: Context, vararg apiInterceptors: Interceptor) {
 private const val CONNECTION_TIMEOUT: Long = 20
 private const val READ_TIMEOUT: Long = 30
 private const val WRITE_TIMEOUT: Long = 20
-private const val BASE_URL: String = "https://api.apixu.com/v1/forecast.json"
+private const val BASE_URL: String = "https://api.apixu.com/"
 private const val CACHE_SIZE: Long = 5 * 1024 * 1024
