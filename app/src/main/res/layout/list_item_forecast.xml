@@ -5,9 +5,18 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+                name="forecast"
+                type="com.karthik.goweather.weather.data.ForecastDay"/>
+
+        <import type="com.karthik.goweather.weather.ui.ForecastListBindingUtil"/>
+    </data>
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
             android:layout_width="match_parent"
             android:layout_height="80dp">
 
@@ -17,12 +26,14 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorTempText"
                 android:fontFamily="sans-serif"
+                android:text="@{ForecastListBindingUtil.getDayofDate(forecast.date)}"
                 android:textSize="16sp"
                 android:id="@+id/day_view" app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
         <TextView
                 tools:text="24"
+                android:text="@{ForecastListBindingUtil.getTempString(forecast.day.avgTemp)}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"

@@ -86,6 +86,6 @@ class WeatherViewModel(
 
 
     companion object{
-        const val FORECAST_DAYS = 10
+        const val FORECAST_DAYS = 4
     }
 }
