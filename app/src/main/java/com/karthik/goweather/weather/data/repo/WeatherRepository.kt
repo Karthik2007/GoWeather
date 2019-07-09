@@ -21,12 +21,12 @@ class WeatherRepository(
     private val dispatcherProvider: CoroutineDispatcherProvider
 ) {
 
-    suspend fun getForecast(days: Int): Either<Failure, BaseResponse<ForecastResponse>> =
+    suspend fun getForecast(days: Int, region: String): Either<Failure, BaseResponse<ForecastResponse>> =
 
         withContext(dispatcherProvider.IO) {
 
             return@withContext try {
-                val response = weatherApi.getForecast(days).execute()
+                val response = weatherApi.getForecast(days,region).execute()
 
                 when (response.isSuccessful && response.body() != null) {
                     true -> {

@@ -14,9 +14,55 @@
             android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:padding="10dp"
             android:indeterminateDrawable="@drawable/progress_indeterminate"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
     />
 
     <include layout="@layout/error_layout"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/weather_content_view"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+                tools:text="20"
+                android:textSize="96sp"
+                android:fontFamily="sans-serif-black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cur_temp_view" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="56dp"/>
+        <TextView
+                tools:text="Bangalore"
+                android:textSize="36sp"
+                android:textColor="@color/colorRegionText"
+                android:fontFamily="sans-serif-thin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/region_view" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/cur_temp_view"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:padding="16dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/region_view"
+                android:layout_marginTop="50dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

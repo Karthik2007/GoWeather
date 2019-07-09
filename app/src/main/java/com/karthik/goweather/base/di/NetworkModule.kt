@@ -4,6 +4,7 @@ import ccom.karthik.goweather.base.data.api.interceptor.BaseInterceptor
 import com.karthik.goweather.base.GoWeatherApp
 import com.karthik.goweather.base.data.api.ApiClient
 import com.karthik.goweather.base.data.api.interceptor.CacheInterceptor
+import com.karthik.goweather.base.data.api.interceptor.TokenInterceptor
 import com.karthik.goweather.base.network.ConnectionHandler
 import dagger.Module
 import dagger.Provides
@@ -36,11 +37,16 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun providesTokenInterceptor() = TokenInterceptor()
+
+    @Singleton
+    @Provides
     fun providesApiClient(
         baseApplication: GoWeatherApp,
         baseInterceptor: BaseInterceptor,
-        cacheInterceptor: CacheInterceptor
+        cacheInterceptor: CacheInterceptor,
+        tokenInterceptor: TokenInterceptor
     ): ApiClient {
-        return ApiClient(baseApplication.applicationContext, baseInterceptor, cacheInterceptor)
+        return ApiClient(baseApplication.applicationContext, baseInterceptor, cacheInterceptor,tokenInterceptor)
     }
 }

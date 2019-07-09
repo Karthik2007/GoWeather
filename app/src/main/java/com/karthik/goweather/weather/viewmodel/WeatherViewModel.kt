@@ -47,7 +47,7 @@ class WeatherViewModel(
     {
         _progressLoading.value = true
         uiScope.launch{
-            val response =  weatherRepository.getForecast(FORECAST_DAYS)
+            val response =  weatherRepository.getForecast(FORECAST_DAYS,"Paris")
             response.either(::handleFetchForecastFailure, ::handleFetchForecastSuccess)
             _progressLoading.value = false
         }
