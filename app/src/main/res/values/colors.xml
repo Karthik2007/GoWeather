@@ -3,4 +3,12 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#388E3C</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorBGScreen">#F5F6F7</color>
+
+
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="bgErrorScreen">#E85959</color>
+    <color name="bgRetryBtn">#4A4A4A</color>
+
+
 </resources>
