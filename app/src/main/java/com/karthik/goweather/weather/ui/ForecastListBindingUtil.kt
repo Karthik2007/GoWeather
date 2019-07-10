@@ -19,13 +19,15 @@ class ForecastListBindingUtil {
     companion object{
 
         @JvmStatic
-        fun getTempString(temp: Float) = temp.toString().plus(" C")
+        fun getTempString(temp: Float) = "${temp.toInt()} C"
 
         @JvmStatic
         fun getDayofDate(dateString: String): String{
+
             val dateFormat = SimpleDateFormat("yyyy-MM-dd");
             val date=  dateFormat.parse(dateString)
             return DateFormat.format("EEEE", date).toString()
+
         }
     }
 }

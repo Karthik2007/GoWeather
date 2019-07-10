@@ -2,6 +2,7 @@ package com.karthik.goweather.base.di
 
 import android.app.Application
 import android.content.Context
+import com.karthik.goweather.base.GoWeatherApp
 import com.karthik.goweather.base.navigation.AppNavigator
 import com.karthik.goweather.base.util.CoroutineDispatcherProvider
 import dagger.Module
@@ -20,8 +21,8 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideContext(application: Application): Context {
-        return application
+    fun provideContext(application: GoWeatherApp): Context {
+        return application.applicationContext
     }
 
     @Provides

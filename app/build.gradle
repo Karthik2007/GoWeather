@@ -47,6 +47,10 @@ dependencies {
     /** -- android AAC -- **/
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
 
+    /** -- Location -- **/
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+
+
     /** -- Retrofit (Network library) -- **/
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"

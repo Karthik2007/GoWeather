@@ -1,7 +1,12 @@
 package com.karthik.goweather.weather.ui.view
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +22,15 @@ import kotlinx.android.synthetic.main.error_layout.*
 import javax.inject.Inject
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.karthik.goweather.base.util.slideUp
 
 
 class WeatherActivity : DaggerAppCompatActivity() {
 
 
     private lateinit var weatherViewModel: WeatherViewModel
-    @Inject lateinit var weatherViewModelFactory: WeatherViewModelFactory
+    @Inject
+    lateinit var weatherViewModelFactory: WeatherViewModelFactory
     private lateinit var forecastListAdapter: ForecastListAdapter
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<RecyclerView>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +39,18 @@ class WeatherActivity : DaggerAppCompatActivity() {
 
         weatherViewModel = ViewModelProviders.of(this, weatherViewModelFactory).get(WeatherViewModel::class.java)
 
-
         setUpActionListeners()
 
         setRecyclerView()
 
         setUpObservers()
+
+        if(checkPermission())
+        {
+            weatherViewModel.fetchLocation()
+        }
     }
+
 
 
     private fun setUpActionListeners() {
@@ -74,15 +83,23 @@ class WeatherActivity : DaggerAppCompatActivity() {
 
         forecastResponse?.let {
             region_view.text = it.location.name
-            cur_temp_view.text = it.forecast.forecastday[0].day.avgTemp.toString()
+            cur_temp_view.text = "${it.forecast.forecastday[0].day.avgTemp.toInt()}\u00B0"
 
             weather_content_view.visibility = View.VISIBLE
             forecastListAdapter.setItems(it.forecast.forecastday)
-            bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+            animateForecastList()
 
         }
 
 
+    }
+
+    private fun animateForecastList() {
+
+        val bottomUp = AnimationUtils.loadAnimation(applicationContext, R.anim.bottom_up)
+        forecast_recycler_view.startAnimation(bottomUp)
+        forecast_recycler_view.visibility = View.VISIBLE
     }
 
     private fun setRecyclerView() {
@@ -92,8 +109,6 @@ class WeatherActivity : DaggerAppCompatActivity() {
 
         forecastListAdapter = ForecastListAdapter()
 
-        bottomSheetBehavior = BottomSheetBehavior.from(forecast_recycler_view)
-        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         forecastRecyclerView.apply {
 
@@ -105,4 +120,57 @@ class WeatherActivity : DaggerAppCompatActivity() {
     }
 
 
+    private fun checkPermission(): Boolean {
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+
+            // No explanation needed, we can request the permission.
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION),
+                LOCATION_REQUEST_CODE
+            )
+            // LOCATION_REQUEST_CODE is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+
+            return false
+
+        } else {
+            // Permission has already been granted
+            return true
+        }
+
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+        when (requestCode) {
+            LOCATION_REQUEST_CODE -> {
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                    //fetch location on permission allowed
+                    weatherViewModel.fetchLocation()
+                } else {
+
+                    // finish activity and close application when permission is denied
+                    finish()
+                }
+                return
+
+            }
+        }
+    }
+
+
+    companion object {
+        private const val LOCATION_REQUEST_CODE = 55
+    }
 }

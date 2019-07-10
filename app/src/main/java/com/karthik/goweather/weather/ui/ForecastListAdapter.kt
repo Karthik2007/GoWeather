@@ -34,6 +34,8 @@ class ForecastListAdapter: RecyclerView.Adapter<ForecastListAdapter.ForecastView
 
         items?.let {
             forecastList = items.toMutableList()
+            //removing current day from the forecast
+            forecastList.removeAt(0)
             notifyDataSetChanged()
         }
     }
