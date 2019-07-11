@@ -1,10 +1,13 @@
 package com.karthik.goweather.weather.ui.view
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -22,6 +25,7 @@ import kotlinx.android.synthetic.main.error_layout.*
 import javax.inject.Inject
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.karthik.goweather.base.util.LocationHandler
 
 
 class WeatherActivity : DaggerAppCompatActivity() {
@@ -45,13 +49,24 @@ class WeatherActivity : DaggerAppCompatActivity() {
 
         setUpObservers()
 
-        if(checkPermission())
-        {
-            weatherViewModel.fetchLocation()
-        }
     }
 
 
+    override fun onStart() {
+        super.onStart()
+
+        if(checkPermission())
+        {
+            if(LocationHandler(this).isEnabled)
+            {
+                weatherViewModel.fetchLocation()
+
+            }else {
+                showGpsNotEnabledDialog()
+            }
+
+        }
+    }
 
     private fun setUpActionListeners() {
 
@@ -150,6 +165,24 @@ class WeatherActivity : DaggerAppCompatActivity() {
     }
 
 
+    private fun showGpsNotEnabledDialog() {
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle(R.string.gps_required_title)
+            .setMessage(R.string.gps_required_body)
+            .setPositiveButton(R.string.action_settings) { _, _ ->
+                // Open app's settings.
+                val intent = Intent().apply {
+                    action = Settings.ACTION_LOCATION_SOURCE_SETTINGS
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton(android.R.string.cancel){_,_->
+                finish()
+            }
+            .show()
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
 
         when (requestCode) {
@@ -157,7 +190,13 @@ class WeatherActivity : DaggerAppCompatActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
 
                     //fetch location on permission allowed
-                    weatherViewModel.fetchLocation()
+                    if(LocationHandler(this).isEnabled)
+                    {
+                        weatherViewModel.fetchLocation()
+
+                    }else {
+                        showGpsNotEnabledDialog()
+                    }
                 } else {
 
                     // finish activity and close application when permission is denied
@@ -168,6 +207,8 @@ class WeatherActivity : DaggerAppCompatActivity() {
             }
         }
     }
+
+
 
 
     companion object {

@@ -62,6 +62,7 @@ class WeatherViewModel(
                 // try requesting location update once to retrieve last location
 
                 receiveLocationUpdate()
+                _noInternetOrError.value = true
             }else
             {
                 fetchLocationAddress(it)
@@ -75,12 +76,6 @@ class WeatherViewModel(
         val mLocationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationProvider.removeLocationUpdates(this)
-                if (locationResult != null && locationResult.locations.isNotEmpty()) {
-                    val newLocation = locationResult.locations[0]
-                    fetchLocationAddress(newLocation)
-                } else {
-                    _noInternetOrError.value = true
-                }
             }
         }
 

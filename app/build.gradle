@@ -16,6 +16,15 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    flavorDimensions "tier"
+    productFlavors {
+        goweather {
+            applicationId "com.karthik.goweather"
+            dimension "tier"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
