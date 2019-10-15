@@ -167,7 +167,7 @@ class WeatherActivity : DaggerAppCompatActivity() {
 
     private fun showGpsNotEnabledDialog() {
 
-        val alertDialog = AlertDialog.Builder(this)
+        AlertDialog.Builder(this)
             .setTitle(R.string.gps_required_title)
             .setMessage(R.string.gps_required_body)
             .setPositiveButton(R.string.action_settings) { _, _ ->
